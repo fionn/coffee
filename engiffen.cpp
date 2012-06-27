@@ -21,7 +21,8 @@ main(int argc, char* argv[])
 		return 0;
 	}
 	stringstream frames;
-	frames << foldername.str() << "/*.gif";
+	frames << foldername.str() << "*.gif";
 	cout << frames.str().insert(0, "gifsicle ").append(" > ").append(foldername.str()).append(".gif");
-	//system(frames.str().insert(0, "gifsicle ").append(" > ").append(foldername.str()).append(".gif").c_str());
+	system(frames.str().insert(0, "gifsicle --delay 25 -l ").append(" > ").append(foldername.str().erase(foldername.str().size()-1)).append(".gif").c_str());
+	cout << "\n Done." << endl;
 }

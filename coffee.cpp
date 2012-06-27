@@ -154,7 +154,7 @@ vector<int> surfaceGrains(FilterContent Filter)
 
 	for(int i=1; i < Filter.grainNumber; i++)
 	{
-		if(Filter.grains[i].pos[1] > Filter.grains[maxY].pos[1])
+		if(Filter.grains[i].pos[1] > Filter.grains[maxY].pos[1] && fabs(Filter.grains[j].pos[0]) <= pourRadius)
 		maxY = i;
 	}
 
@@ -167,7 +167,7 @@ vector<int> surfaceGrains(FilterContent Filter)
 		int test = 0;
 		oldSize = highestGrains.size();
 		for(int j=0; j<Filter.grainNumber; j++)
-			if( Filter.grains[j].pos[0] <= pourRadius )
+			if( fabs(Filter.grains[j].pos[0]) <= pourRadius )
 				if(isSurface(Filter, highestGrains, j)  && Filter.grains[j].pos[1] > Filter.grains[maxTmp].pos[1]) 
 					maxTmp = j;
 		for(int j=0; j<highestGrains.size(); j++)
