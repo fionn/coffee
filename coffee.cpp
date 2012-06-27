@@ -151,10 +151,13 @@ bool isSurface(FilterContent Filter, vector<int> highestGrain, int n)
 vector<int> surfaceGrains(FilterContent Filter)
 {
 	int maxY = 0; // initialise maxY to be the first grain (this is an indexing number)
-
+	while(fabs(Filter.grains[maxY].pos[0]) > pourRadius)
+	{
+		maxY++;
+	}
 	for(int i=1; i < Filter.grainNumber; i++)
 	{
-		if(Filter.grains[i].pos[1] > Filter.grains[maxY].pos[1] && fabs(Filter.grains[j].pos[0]) <= pourRadius)
+		if(Filter.grains[i].pos[1] > Filter.grains[maxY].pos[1] && fabs(Filter.grains[i].pos[0]) <= pourRadius)
 		maxY = i;
 	}
 
