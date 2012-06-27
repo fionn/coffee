@@ -107,7 +107,7 @@ vector<int> nearestneighbours(int i, FilterContent filter)
 
         for(int j=0;j<filter.grainNumber;j++)
                 {
-                        if( sqrt( pow(filter.grains[i].pos[0]-filter.grains[j].pos[0],2) + pow(filter.grains[i].pos[1]-filter.grains[j].pos[1],2) ) <= filter.grains[i].radius )
+                        if(sqrt(pow(filter.grains[i].pos[0]-filter.grains[j].pos[0],2) + pow(filter.grains[i].pos[1]-filter.grains[j].pos[1],2) ) <= filter.grains[i].radius)
                         {
                                 neighbours.push_back(j);
                         }
@@ -120,11 +120,10 @@ bool isSurface(FilterContent Filter, vector<int> highestGrain, int n)
 {
 	for(int i=0; i<highestGrain.size(); i++)
 	{
-		for(int j=i; j<highestGrain.size(); j++)
+		for(int j=0; j<highestGrain.size(); j++)
 		{
 			if(fabs(Filter.grains[highestGrain[i]].pos[0] - Filter.grains[highestGrain[j]].pos[0]) <= 2*Filter.grains[highestGrain[i]].radius)
 			{
-				
 				if(Filter.grains[highestGrain[i]].pos[0] > Filter.grains[highestGrain[j]].pos[0] && Filter.grains[n].pos[0] > Filter.grains[highestGrain[j]].pos[0] && Filter.grains[n].pos[0] < Filter.grains[highestGrain[i]].pos[0])
 				{
 					return false;
@@ -143,7 +142,6 @@ bool isSurface(FilterContent Filter, vector<int> highestGrain, int n)
 				return false;
 			}
 		}		
-		//if(fabs(Filter.grains[n].pos[0]-Filter.grains[highestGrain[i]].pos[0]) < 2*Filter.grains[n].radius) return false;
 	}
 	return true;
 }
@@ -170,8 +168,8 @@ vector<int> surfaceGrains(FilterContent Filter)
 		int test = 0;
 		oldSize = highestGrains.size();
 		for(int j=0; j<Filter.grainNumber; j++)
-			if( fabs(Filter.grains[j].pos[0]) <= pourRadius )
-				if(isSurface(Filter, highestGrains, j)  && Filter.grains[j].pos[1] > Filter.grains[maxTmp].pos[1]) 
+			if(fabs(Filter.grains[j].pos[0]) <= pourRadius)
+				if(isSurface(Filter, highestGrains, j) && Filter.grains[j].pos[1] > Filter.grains[maxTmp].pos[1]) 
 					maxTmp = j;
 		for(int j=0; j<highestGrains.size(); j++)
 			if(highestGrains[j] == maxTmp) {test++; break;}	
