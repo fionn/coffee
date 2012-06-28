@@ -95,9 +95,7 @@ class FilterContent
 	void printGrains()
 	{
 		for(int i = 0; i < grainNumber; i++)
-		{
 			cout << grains[i].pos[0] << "\t" << grains[i].pos[1] << " #" << i << endl;
-		}
 	}		
 };
 
@@ -106,12 +104,8 @@ vector<int> nearestneighbours(int i, FilterContent filter)
         vector<int> neighbours (0);
 
         for(int j=0;j<filter.grainNumber;j++)
-                {
-                        if( sqrt( pow(filter.grains[i].pos[0]-filter.grains[j].pos[0],2) + pow(filter.grains[i].pos[1]-filter.grains[j].pos[1],2) ) <= filter.grains[i].radius )
-                        {
+                        if(sqrt(pow(filter.grains[i].pos[0]-filter.grains[j].pos[0],2) + pow(filter.grains[i].pos[1]-filter.grains[j].pos[1],2) ) <= filter.grains[i].radius)
                                 neighbours.push_back(j);
-                        }
-                }
         
         return neighbours;
 }
@@ -119,32 +113,20 @@ vector<int> nearestneighbours(int i, FilterContent filter)
 bool isSurface(FilterContent Filter, vector<int> highestGrain, int n)
 {
 	for(int i=0; i<highestGrain.size(); i++)
-	{
-		for(int j=i; j<highestGrain.size(); j++)
+		for(int j=0; j<highestGrain.size(); j++)
 		{
 			if(fabs(Filter.grains[highestGrain[i]].pos[0] - Filter.grains[highestGrain[j]].pos[0]) <= 2*Filter.grains[highestGrain[i]].radius)
 			{
-				
 				if(Filter.grains[highestGrain[i]].pos[0] > Filter.grains[highestGrain[j]].pos[0] && Filter.grains[n].pos[0] > Filter.grains[highestGrain[j]].pos[0] && Filter.grains[n].pos[0] < Filter.grains[highestGrain[i]].pos[0])
-				{
 					return false;
-				}
 				else if(Filter.grains[highestGrain[i]].pos[0] < Filter.grains[highestGrain[j]].pos[0] && Filter.grains[n].pos[0] < Filter.grains[highestGrain[j]].pos[0] && Filter.grains[n].pos[0] > Filter.grains[highestGrain[i]].pos[0])
-				{
 					return false;
-				}
 				else if(Filter.grains[highestGrain[i]].pos[0] == Filter.grains[n].pos[0])
-				{
 					return false;
-				}
 			}
 			else if(Filter.grains[highestGrain[i]].pos[0] == Filter.grains[n].pos[0])
-			{
 				return false;
-			}
 		}		
-		//if(fabs(Filter.grains[n].pos[0]-Filter.grains[highestGrain[i]].pos[0]) < 2*Filter.grains[n].radius) return false;
-	}
 	return true;
 }
 
@@ -155,7 +137,7 @@ vector<int> surfaceGrains(FilterContent Filter)
 	{
 		maxY++;
 	}
-	for(int i=1; i < Filter.grainNumber; i++)
+	for(int i=0; i<Filter.grainNumber; i++)
 	{
 		if(Filter.grains[i].pos[1] > Filter.grains[maxY].pos[1] && fabs(Filter.grains[i].pos[0]) <= pourRadius)
 		maxY = i;
@@ -167,12 +149,15 @@ vector<int> surfaceGrains(FilterContent Filter)
 	while(highestGrains.size() != oldSize)
 	{
 		int maxTmp = 0;
+		while(fabs(Filter.grains[maxTmp].pos[0]) > pourRadius)
+		{
+			maxTmp++;
+		}
 		int test = 0;
 		oldSize = highestGrains.size();
 		for(int j=0; j<Filter.grainNumber; j++)
-			if( fabs(Filter.grains[j].pos[0]) <= pourRadius )
-				if(isSurface(Filter, highestGrains, j)  && Filter.grains[j].pos[1] > Filter.grains[maxTmp].pos[1]) 
-					maxTmp = j;
+			if(fabs(Filter.grains[j].pos[0]) <= pourRadius && isSurface(Filter, highestGrains, j) && Filter.grains[j].pos[1] > Filter.grains[maxTmp].pos[1]) 
+				maxTmp = j;
 		for(int j=0; j<highestGrains.size(); j++)
 			if(highestGrains[j] == maxTmp) {test++; break;}	
 		if(maxTmp!=0 && test==0) {highestGrains.push_back(maxTmp);}
@@ -194,5 +179,5 @@ main(int argc, char* argv[])
 	{
 		cout << Filter.grains[highestGrains[i]].pos[0] << "\t" << Filter.grains[highestGrains[i]].pos[1]  << "\t" << Filter.grains[highestGrains[i]].radius << " #" << highestGrains[i] << endl;
 	}
-	
+	return 0;	
 }
